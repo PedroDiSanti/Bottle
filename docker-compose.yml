@@ -1,0 +1,25 @@
+version: '2.1'
+
+services:
+    mongo:
+        container_name: MongoDB
+        restart: always
+        image: mongo:3.0
+        environment:
+            MONGODB_USER: "mongo"
+            MONGODB_DATABASE: "mongo"
+            MONGODB_PASS: "mongo"
+        ports:
+            - "27017:27017"
+        command: --smallfiles --quiet --logpath=/dev/null
+
+    web:
+        container_name: Bottle
+        restart: always
+        build: ./docker-configs
+        ports:
+            - "8080:8080"
+        volumes:
+            - .:/app
+        depends_on:
+            - mongo
